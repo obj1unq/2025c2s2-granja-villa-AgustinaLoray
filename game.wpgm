@@ -19,7 +19,10 @@ program farmville {
 
 
     //REGAR
-    keyboard.r().onPressDo({personaje.regar(personaje.cultivosEnMiPosicion())})
+    keyboard.r().onPressDo({personaje.regar()})
+
+    //COSECHAR
+    keyboard.c().onPressDo({personaje.cosechar()})
 
 
     //COMIENZA

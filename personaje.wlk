@@ -4,6 +4,7 @@ import cultivos.*
 object personaje {
     var property position = game.center()
     const property image = "fplayer.png"
+    const property listaDeVenta = [] 
 
     method sembrarMaiz() {
     self.validarPoderPlantar()
@@ -23,23 +24,30 @@ object personaje {
 
     }
 
+    method objetoEncima() {
+        var obj = game.getObjectsIn(position)
+        obj.remove(self)
+        return obj 
+    }
+
     method validarPoderPlantar() {
-        var objetos = game.getObjectsIn(position)
-        objetos.remove(self)
-        if (not objetos.isEmpty())
+        if (not self.objetoEncima().isEmpty())
             {self.error("¡Ya hay algo plantado!")}
-
     }
 
-    method cultivosEnMiPosicion() {
-        var cultivos = game.getObjectsIn(position)
-        cultivos.remove(self)
-        return cultivos
+    method regar() {
+        self.objetoEncima().first().regar()
     }
 
-    method regar(cultivo) {
-        cultivo.regar()
+    method cosechar() {
+        self.validarPoderCosechar()
+        self.objetoEncima().first().cosechar()
+    }
 
+    method validarPoderCosechar() {
+        if (self.objetoEncima().isEmpty())
+            {self.error("No tengo nada para cosechar")}
+      
     }
 
 }
