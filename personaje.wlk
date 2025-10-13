@@ -1,11 +1,13 @@
 import wollok.game.*
 import cultivos.*
+import aspersor.*
 
 object personaje {
     var property position = game.center()
     const property image = "fplayer.png"
     const property listaDeVenta = [] 
     var property cantidadDeMonedas = 0
+    const property aspersores = []
 
     method sembrarMaiz() {
     self.validarPoderPlantar()
@@ -60,4 +62,15 @@ object personaje {
     method texto() {
         return "Tengo " + self.cantidadDeMonedas() + " monedas, y " + self.listaDeVenta().size() + " plantas para vender."
     }
+
+    method ponerAspersor() {
+        const aspersor = new Aspersor(position = self.position())
+        game.addVisual(aspersor)
+        aspersores.add(aspersor)
+    }
+
+    method activarAspersor() {
+      aspersores.forEach({aspersor => aspersor.regarTodo()})
+    }
+    
 }
