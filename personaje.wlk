@@ -5,6 +5,7 @@ object personaje {
     var property position = game.center()
     const property image = "fplayer.png"
     const property listaDeVenta = [] 
+    var property cantidadDeMonedas = 0
 
     method sembrarMaiz() {
     self.validarPoderPlantar()
@@ -47,7 +48,16 @@ object personaje {
     method validarPoderCosechar() {
         if (self.objetoEncima().isEmpty())
             {self.error("No tengo nada para cosechar")}
-      
     }
 
+    method vender() {
+        var monedas = 0
+        self.listaDeVenta().forEach({unCultivo => monedas += unCultivo.esVendida()})
+        self.cantidadDeMonedas(self.cantidadDeMonedas() + monedas)
+        self.listaDeVenta().clear()
+    }
+
+    method texto() {
+        return "Tengo " + self.cantidadDeMonedas() + " monedas, y " + self.listaDeVenta().size() + " plantas para vender."
+    }
 }
