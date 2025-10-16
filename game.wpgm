@@ -21,7 +21,8 @@ program farmville {
     keyboard.space().onPressDo({game.say (personaje,
         "Tengo " + personaje.cantidadDeMonedas() + " monedas, y "
             + personaje.listaDeVenta().size() + " planta/s para vender.")})
-
+    keyboard.a().onPressDo({personaje.ponerAspersor()})
+    game.onTick(1000, "regar con aspersor", {personaje.activarAspersor()})
 
     //COMIENZA
     game.start()
