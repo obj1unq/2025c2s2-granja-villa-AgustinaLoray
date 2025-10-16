@@ -1,0 +1,66 @@
+import mercados.*
+import cultivos.*
+import aspersor.*
+import wollok.game.*
+import personaje.*
+
+describe "Sembrar" {
+  test "sembrar maiz" {
+    personaje.sembrarMaiz()
+    assert.that(personaje.objetoEncima().first().kindName() == "a Maiz")
+  }
+
+  test "sembrar trigo" {
+    personaje.sembrarTrigo()
+    assert.that(personaje.objetoEncima().first().kindName() == "a Trigo")
+  }
+
+  test "sembrar tomaco" {
+    personaje.sembrarTomaco()
+    assert.that(personaje.objetoEncima().first().kindName() == "a Tomaco")
+  }
+}
+
+describe "Regar" {
+  test "regar maiz" {
+    personaje.sembrarMaiz()
+    personaje.regar()
+    assert.that(not personaje.objetoEncima().first().esBebe())
+  }
+
+  test "regar trigo" {
+    personaje.sembrarTrigo()
+    personaje.regar()
+    assert.that(personaje.objetoEncima().first().etapaDeEvolucion() == 1)
+  }
+
+  test "regar tomaco" {
+    personaje.sembrarTomaco()
+    personaje.regar()
+    assert.that(personaje.objetoEncima().first().image() == "tomaco.png") 
+    //no se me ocurre otra manera pero no funciona :(
+  }
+}
+
+describe "Cosechar" {
+  test "cosechar maiz" {
+    personaje.sembrarMaiz()
+    personaje.regar()
+    personaje.cosechar()
+    assert.that(personaje.listaDeVenta().size() == 1)
+  }
+
+  test "cosechar trigo" {
+    personaje.sembrarTrigo()
+    personaje.regar()
+    personaje.regar()
+    personaje.cosechar()
+    assert.that(personaje.listaDeVenta().size() == 1)
+  }
+
+  test "cosechar tomaco" {
+    personaje.sembrarTomaco()
+    personaje.regar()
+    assert.that(personaje.objetoEncima().isEmpty())
+  }
+}
