@@ -1,3 +1,4 @@
+import mercados.*
 import wollok.game.*
 import personaje.*
 import cultivos.*
@@ -10,6 +11,9 @@ program farmville {
     game.ground("ground.png")
 
     //VISUALES
+    game.addVisual(new Mercado(position = game.at(2, 8), monedas = 1000))
+    game.addVisual(new Mercado(position = game.at(8, 5), monedas = 500))
+    game.addVisual(new Mercado(position = game.at(1, 1), monedas = 80))
     game.addVisualCharacter(personaje)
 
     keyboard.m().onPressDo({personaje.sembrarMaiz()})

@@ -53,14 +53,46 @@ object personaje {
     }
 
     method vender() {
-        var monedas = 0
-        self.listaDeVenta().forEach({unCultivo => monedas += unCultivo.esVendida()})
-        self.cantidadDeMonedas(self.cantidadDeMonedas() + monedas)
+        self.validarPoderVender1()
+        self.validarPoderVender2()
+        const mercadoActual = self.mercadoEnMiPosicion()
+        const precioTotal = self.precioTotalDeVenta()
+        mercadoActual.comprar(self.listaDeVenta(), precioTotal)
+        self.recibirPago(precioTotal)
         self.listaDeVenta().clear()
     }
 
+    method mercadoEnMiPosicion() {
+        var obj = game.getObjectsIn(self.position())
+        obj.remove(self)
+        return obj.find({unObjeto => unObjeto.esUnMercado()})
+    }
+
+    method recibirPago(cantidad) {
+        cantidadDeMonedas += cantidad
+    }
+
+    method precioTotalDeVenta() {
+        return self.listaDeVenta().sum({unCultivo => unCultivo.precio()})
+    }
+
+    method validarPoderVender1() {
+        if (not self.estoyEnUnMercado())
+            {self.error("No puedo vender, no estoy en un mercado")}
+    }
+
+    method estoyEnUnMercado() {
+        return game.getObjectsIn(self.position()).any({objeto => objeto.esUnMercado()})
+    }
+
+    method validarPoderVender2() {
+        var mercadoEnMiPos = self.mercadoEnMiPosicion()
+        if (not (mercadoEnMiPos.monedas() >= self.precioTotalDeVenta()))
+            {self.error("El mercado no tiene suficientes monedas")}
+    }
+
     method texto() {
-        return "Tengo " + self.cantidadDeMonedas() + " monedas, y " + self.listaDeVenta().size() + " plantas para vender."
+        return "Tengo " + self.cantidadDeMonedas() + " monedas, y " + self.listaDeVenta().size() + " plantas para vender"
     }
 
     method ponerAspersor() {
@@ -73,4 +105,8 @@ object personaje {
       aspersores.forEach({aspersor => aspersor.regarTodo()})
     }
     
+    method esUnMercado() {
+        return false
+    }
+
 }

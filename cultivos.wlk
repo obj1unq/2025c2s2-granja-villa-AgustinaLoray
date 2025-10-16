@@ -21,7 +21,10 @@ class Maiz {
 
     method esVendida() {
         return self.precio()
-      
+    }
+
+    method esUnMercado() {
+        return false
     }
 }
 
@@ -49,7 +52,10 @@ class Trigo {
 
     method esVendida() {
         return self.precio()
-      
+    }
+
+    method esUnMercado() {
+        return false
     }
 
 }
@@ -72,6 +78,9 @@ class Tomaco {
 
     method esVendida() {
         return self.precio()
-      
+    }
+
+    method esUnMercado() {
+        return false
     }
 }

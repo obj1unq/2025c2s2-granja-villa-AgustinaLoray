@@ -31,4 +31,8 @@ class Aspersor {
     method regarTodo(){
         direccionesLimitrofes.forEach({direccion => self.regarHacia(direccion) })
     }
+
+    method esUnMercado() {
+        return false
+    }
 }
