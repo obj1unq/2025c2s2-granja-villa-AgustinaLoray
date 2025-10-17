@@ -64,3 +64,51 @@ describe "Cosechar" {
     assert.that(personaje.objetoEncima().isEmpty())
   }
 }
+
+describe "Aspersores" {
+  test "poner aspersor" {
+    personaje.ponerAspersor()
+    assert.that(personaje.aspersores().size() == 1)
+  }
+
+  test "regar con aspersor maiz" {
+    personaje.position(game.at(3,3))
+    var pos = game.at(3,4)
+    var maiz = new Maiz(position = pos, esBebe = true)
+    game.addVisual(maiz)
+    personaje.ponerAspersor()
+    personaje.activarAspersor()
+    var maizDespues = game.getObjectsIn(pos)
+    assert.that(maizDespues.first().kindName() == "a Maiz")
+    assert.that(maizDespues.first().image() == "corn_adult.png")
+  }
+
+  test "regar con aspersor trigo" {
+    personaje.position(game.at(5,5))
+    var pos = game.at(4,5)
+    var trigo = new Trigo(position = pos, etapaDeEvolucion = 0)
+    game.addVisual(trigo)
+    personaje.ponerAspersor()
+    personaje.activarAspersor()
+    var trigoDespues = game.getObjectsIn(pos)
+    assert.that(trigoDespues.first().kindName() == "a Trigo")
+    assert.that(trigoDespues.first().etapaDeEvolucion() == 1)
+  }
+
+}
+
+describe "Venta mercado" {
+  test "venta" {
+    personaje.position(game.at(2,2))
+    personaje.sembrarMaiz()
+    personaje.regar()
+    personaje.cosechar()
+    var nuevoMercado = new Mercado(position = game.at(1,1), monedas = 1000)
+    game.addVisual(nuevoMercado)
+    personaje.position(game.at(1,1))
+    personaje.vender()
+    assert.that(personaje.cantidadDeMonedas() == 150)
+    assert.that(personaje.listaDeVenta().isEmpty())
+    assert.that(nuevoMercado.monedas() == 850)
+  }
+}

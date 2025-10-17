@@ -8,6 +8,7 @@ class Aspersor {
     const property direccionesLimitrofes = []
 
     method initialize() {
+        self.direccionesLimitrofes().clear()
         self.direccionesLimitrofes().addAll(
             [
             game.at(position.x(), position.y()+1),    // norte
@@ -24,8 +25,10 @@ class Aspersor {
     }
 
     method regarHacia(direccion) {
-        const objeto = game.getObjectsIn(direccion).first()
-        objeto.regar()
+        var objs = game.getObjectsIn(direccion)
+        if (not objs.isEmpty()) {
+            objs.first().regar()
+        }
     }
 
     method regarTodo(){
@@ -34,5 +37,10 @@ class Aspersor {
 
     method esUnMercado() {
         return false
+    }
+
+    method regar() {
+        var mensaje = "No se puede regar con un aspersor al lado de otro"
+        game.say(personaje, mensaje)
     }
 }
